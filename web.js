@@ -49,7 +49,7 @@ function getCurrentPairStatus(users) {
 
 app.post('/', function(req, res) {
   var hasArgs = req.param('text').length > 0;
-  var args = req.param('text').split(' ').map(function(i){return i.toLowerCase();}),
+  var args = req.param('text').toLowerCase().split(' '),
       command = req.param('command'),
       username = req.param('user_name'),
       acceptable = ["yes", "ok", "no"];
