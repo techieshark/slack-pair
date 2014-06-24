@@ -17,16 +17,16 @@ Use "/pair" alone to list the status of all teammates:
 >
 > Nope. Do Not Disturb:
 >
->   Jason: travelling
->   Maksim
->   Peter: deadlines!
+>  * Jason: travelling
+>  * Maksim
+>  * Peter: deadlines!
 
 Use "/pair [yes/ok/no]" to set your status
 
 > `/pair yes`
 
 > Yes! You want to pair.
-> Use "/pair on <subject>" to specify the <subject> you want to pair on.
+> Use "/pair yes [subject]" to specify the [subject] you want to pair on.
 
 or
 
