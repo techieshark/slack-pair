@@ -90,5 +90,6 @@ function keepalive() {
 var port = Number(process.env.PORT || 5000);
 app.listen(port, function() {
   console.log("Listening on " + port);
+  console.log("PAIR URL: " + process.env.PAIRBOT_URL);
   setInterval(keepalive, 60e3);
 });
