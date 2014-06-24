@@ -19,9 +19,11 @@ function setof(status, users) {
  }).join('\n');
 }
 
+var help = 'Usage:\t /pair yes|ok|no <what you want to do with fun people>  (or just "/pair" to see the list)';
+
 function getCurrentPairStatus(users) {
   var status = '', yes, no, ok;
-  
+
   yes = setof('yes', users);
   ok = setof('ok', users);
   no = setof('no', users);
@@ -40,10 +42,11 @@ function getCurrentPairStatus(users) {
     status += no;
   }
   if (status == '') {
-    status = 'Got nothing. Go ahead and: \n\t /pair yes|ok|no <what you want to do with fun people>';
+    status = 'No one up for pairing (yet!). Pair up, yo.\n';
   } else {
-    status += '\n----------------------';
+    status += '\n---------------------- Pair up, yo. (Go find \'em!) ----------------------\n';
   }
+  status += help;
   return status;
 }
 
@@ -53,7 +56,7 @@ app.post('/', function(req, res) {
       command = req.param('command'),
       username = req.param('user_name'),
       acceptable = ["yes", "ok", "no"];
-    
+
     console.log('args');
     console.log(args);
 
@@ -69,6 +72,12 @@ app.post('/', function(req, res) {
           users.push({'username': username, 'status': args[0], 'comment': comment});
         }
         console.log(users);
+        // People want confirmation that we got their status, so show it and everyone else's:
+        var status = 'Set your pairing status to: ' + args[0] + '\n';
+        status += getCurrentPairStatus(users);
+        res.send(status);
+      } else {
+        res.send('Close but no cigar. What is this command, "' + args[0] + '", that you speak of?\n' + help);
       }
     }
     else {
