@@ -15,7 +15,7 @@ var users = [];
 
 function setof(status, users) {
  return _.filter(users, { 'status': status }).map(function(user) {
-   return "\t" + user.username + ": " + user.comment;
+   return ">*" + user.username + "*: " + user.comment;
  }).join('\n');
 }
 
@@ -30,23 +30,22 @@ function getCurrentPairStatus(users) {
 
 
   if (yes.length > 0) {
-    status = 'Yes! Someone should come find me now. Let\'s pair:\n';
+    status = '*Yes! Someone should come find me now. Let\'s pair:*\n';
     status += yes;
   }
   if (ok.length > 0 ) {
-    status += '\n\nOk. I\'m working but feel free to interrupt me:\n';
+    status += '\n*Ok. I\'m working but feel free to interrupt me:*\n';
     status += ok;
   }
   if (no.length > 0 ) {
-    status += '\n\nNope. Do Not Disturb:\n';
+    status += '\n*Nope. Do Not Disturb:*\n';
     status += no;
   }
   if (status == '') {
-    status = 'No one up for pairing (yet!). Pair up, yo.\n';
+    status = 'No one up for pairing (yet!). Pair up, yo.\n' + help;
   } else {
-    status += '\n---------------------- Pair up, yo. (Go find \'em!) ----------------------\n';
+    status += '\n' + help + '\n---------------------- Pair up, yo. (Go find \'em!) ----------------------\n';
   }
-  status += help;
   return status;
 }
 
