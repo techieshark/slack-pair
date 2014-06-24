@@ -41,6 +41,8 @@ function getCurrentPairStatus(users) {
   }
   if (status == '') {
     status = 'Got nothing. Go ahead and: \n\t /pair yes|ok|no <what you want to do with fun people>';
+  } else {
+    status += '\n----------------------';
   }
   return status;
 }
