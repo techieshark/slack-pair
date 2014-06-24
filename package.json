@@ -24,6 +24,11 @@
   "homepage": "https://github.com/techieshark/slack-pair",
   "dependencies": {
     "express": "^4.4.4",
-    "logfmt": "^1.1.2"
-  }
+    "logfmt": "^1.1.2",
+    "body-parser": "^1.4.3",
+    "lodash": "^2.4.1",
+    "google-spreadsheet": "^0.2.8",
+    "pr-request": "^2.36.0"
+  },
+  "devDependencies": {}
 }
