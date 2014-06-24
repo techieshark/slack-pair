@@ -82,7 +82,7 @@ app.get('/keepalive', function (req, res) {
 })
 
 function keepalive() {
-  request(process.env.CHATBOT_URL + '/keepalive')
+  request(process.env.PAIRBOT_URL + '/keepalive')
 }
 
 var port = Number(process.env.PORT || 5000);
