@@ -15,34 +15,36 @@ var users = [];
 
 function setof(status, users) {
  return _.filter(users, { 'status': status }).map(function(user) {
-   return "\t" + user.username + ": " + user.comment;
+   return ">*" + user.username + "*: " + user.comment;
  }).join('\n');
 }
 
+var help = 'Usage:\t /pair yes|ok|no <what you want to do with fun people>  (or just "/pair" to see the list)';
+
 function getCurrentPairStatus(users) {
   var status = '', yes, no, ok;
-  
+
   yes = setof('yes', users);
   ok = setof('ok', users);
   no = setof('no', users);
 
 
   if (yes.length > 0) {
-    status = 'Yes! Someone should come find me now. Let\'s pair:\n';
+    status = '*Yes! Someone should come find me now. Let\'s pair:*\n';
     status += yes;
   }
   if (ok.length > 0 ) {
-    status += '\n\nOk. I\'m working but feel free to interrupt me:\n';
+    status += '\n*Ok. I\'m working but feel free to interrupt me:*\n';
     status += ok;
   }
   if (no.length > 0 ) {
-    status += '\n\nNope. Do Not Disturb:\n';
+    status += '\n*Nope. Do Not Disturb:*\n';
     status += no;
   }
   if (status == '') {
-    status = 'Got nothing. Go ahead and: \n\t /pair yes|ok|no <what you want to do with fun people>';
+    status = 'No one up for pairing (yet!). Pair up, yo.\n' + help;
   } else {
-    status += '\n----------------------';
+    status += '\n' + help + '\n---------------------- Pair up, yo. (Go find \'em!) ----------------------\n';
   }
   return status;
 }
@@ -53,7 +55,7 @@ app.post('/', function(req, res) {
       command = req.param('command'),
       username = req.param('user_name'),
       acceptable = ["yes", "ok", "no"];
-    
+
     console.log('args');
     console.log(args);
 
@@ -69,6 +71,12 @@ app.post('/', function(req, res) {
           users.push({'username': username, 'status': args[0], 'comment': comment});
         }
         console.log(users);
+        // People want confirmation that we got their status, so show it and everyone else's:
+        var status = 'Set your pairing status to: ' + args[0] + '\n';
+        status += getCurrentPairStatus(users);
+        res.send(status);
+      } else {
+        res.send('Close but no cigar. What is this command, "' + args[0] + '", that you speak of?\n' + help);
       }
     }
     else {
