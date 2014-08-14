@@ -19,7 +19,7 @@ function setof(status, users) {
  }).join('\n');
 }
 
-var help = 'Usage:\t /pair yes|ok|no <what you want to do with fun people>  (or just "/pair" to see the list)';
+var help = 'Usage:\t /pair [yes|ok|no <your project here>]';
 
 function getCurrentPairStatus(users) {
   var status = '', yes, no, ok;
@@ -30,11 +30,11 @@ function getCurrentPairStatus(users) {
 
 
   if (yes.length > 0) {
-    status = '*Yes! Someone should come find me now. Let\'s pair:*\n';
+    status = '*Yes! Let\'s pair. Come find me now:*\n';
     status += yes;
   }
   if (ok.length > 0 ) {
-    status += '\n*Ok. I\'m working but feel free to interrupt me:*\n';
+    status += '\n*Ok. I\'m working but you can interrupt:*\n';
     status += ok;
   }
   if (no.length > 0 ) {
