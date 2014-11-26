@@ -42,7 +42,7 @@ or
 
 ## contributing
 
-Pull requests are of course welcome and encouraged! You'll need
+[Pull requests](https://help.github.com/articles/using-pull-requests/) are welcome and encouraged! You'll need
 
 1. A slack account and the [ability to add slash commands](http://YOURTEAMNAME.slack.com/services/new/slash-commands)
 2. [ngrok](https://ngrok.com/) or some other method of exposing a local port through a public URL
