@@ -4,6 +4,7 @@
   "description": "a co-working (or pair programming) availability tracker for Slack",
   "main": "web.js",
   "scripts": {
+    "start": "node web.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

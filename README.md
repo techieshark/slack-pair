@@ -49,7 +49,7 @@ or
 
 Once you pull down the project, simply run `npm install` to set up the dependencies. There is a required `PAIRBOT_URL` environment variable but you can `source env.sample` to set it. This is used so that the bot pings itself to keep the Heroku dynos up.
 
-Then you should be able to just `node web.js` and be off to the races.
+Then you should be able to just `npm start` (or `node web.js`) and be off to the races.
 
 You'll be wanting a slack command integration and supply a publicly accessible URL along with a testing command. Slack uses these commands to trigger the integration. To test out your app you'll tell slack to `/<your_testing_command> ok test all the things`.
 
