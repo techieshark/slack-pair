@@ -72,7 +72,7 @@ app.post('/', function(req, res) {
         }
         console.log(users);
         // People want confirmation that we got their status, so show it and everyone else's:
-        var status = 'Set your pairing status to: ' + args[0] + '\n';
+        var status = 'Your pairing status was set to: ' + args[0] + '\n';
         status += getCurrentPairStatus(users);
         res.send(status);
       } else {
