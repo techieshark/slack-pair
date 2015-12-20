@@ -19,7 +19,7 @@ function setof(status, users) {
  }).join('\n');
 }
 
-var help = 'Usage:\t /pair [yes|ok|no <your project here>]';
+var help = 'Usage:\t `/pair [yes|ok|no <your project here>]` or `/pair` alone to see who is free.';
 
 function getCurrentPairStatus(users) {
   var status = '', yes, no, ok;
@@ -42,9 +42,9 @@ function getCurrentPairStatus(users) {
     status += no;
   }
   if (status === '') {
-    status = 'No one up for pairing (yet!). Pair up, yo.\n' + help;
+    status = 'No one up for pairing (yet!). Pair up, yo.\n';
   } else {
-    status += '\n' + help + '\n---------------------- Pair up, yo. (Go find \'em!) ----------------------\n';
+    status += '\n Pair up, yo. (Go find \'em!) \n';
   }
   return status;
 }
