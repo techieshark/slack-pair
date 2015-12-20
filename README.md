@@ -1,6 +1,13 @@
 
 ## slack commands for communicating about pairing / coworking with your team
 
+So you can find teammates to pair on the company website or a bite to eat, for example:
+
+<img src="https://cloud.githubusercontent.com/assets/1072292/11916732/29b14076-a749-11e5-8434-4a345f5256ed.png" alt="Slack-Pair example screenshot">
+
+
+### Usage
+
 Use "/pair" alone to list the status of all teammates:
 
 > `/pair`
@@ -40,13 +47,13 @@ or
 >
 > Bummer! You're too busy for pairing.
 
-## Setup & Run
+### Setup & Run
 
 1. get a copy of the source: `git clone https://github.com/techieshark/slack-pair.git && cd slack-pair`
 2. you can start it by just running `npm start`, but first:
 3. follow the [instructions for configuring the Slack integration](https://github.com/techieshark/slack-pair/issues/14). 
 
-## contributing
+### contributing
 
 [Pull requests](https://help.github.com/articles/using-pull-requests/) are welcome and encouraged! You'll need
 
