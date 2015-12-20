@@ -72,32 +72,32 @@ app.post('/', function(req, res) {
 
     if (!validToken(token)) {
       res.send('Invalid Slack token. Ensure that the correct Slack integration token is set as the SLACK_TOKEN env var.')
-    };
-
-    if (hasArgs) {
-      if (_.contains(acceptable, args[0])) {
-        var comment = args.slice(1).join(' ');
-        user = _.find(users, {'username': username});
-        if (user) {
-          user.status = args[0];
-          user.comment = comment;
+    } else {
+      if (hasArgs) {
+        if (_.contains(acceptable, args[0])) {
+          var comment = args.slice(1).join(' ');
+          user = _.find(users, {'username': username});
+          if (user) {
+            user.status = args[0];
+            user.comment = comment;
+          }
+          else {
+            users.push({'username': username, 'status': args[0], 'comment': comment});
+          }
+          console.log(users);
+          // People want confirmation that we got their status, so show it and everyone else's:
+          var status = 'Your pairing status was set to: ' + args[0] + '\n';
+          status += getCurrentPairStatus(users);
+          res.send(status);
+        } else {
+          res.send('Close but no cigar. What is this command, "' + args[0] + '", that you speak of?\n' + help);
         }
-        else {
-          users.push({'username': username, 'status': args[0], 'comment': comment});
-        }
-        console.log(users);
-        // People want confirmation that we got their status, so show it and everyone else's:
-        var status = 'Your pairing status was set to: ' + args[0] + '\n';
-        status += getCurrentPairStatus(users);
-        res.send(status);
-      } else {
-        res.send('Close but no cigar. What is this command, "' + args[0] + '", that you speak of?\n' + help);
       }
-    }
-    else {
-      var status = getCurrentPairStatus(users);
-      console.log(status)
-      res.send(status);
+      else {
+        var status = getCurrentPairStatus(users);
+        console.log(status)
+        res.send(status);
+      }
     }
 });
 
