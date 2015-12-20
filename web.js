@@ -49,40 +49,55 @@ function getCurrentPairStatus(users) {
   return status;
 }
 
+function validToken(token) {
+  if (token == process.env.SLACK_TOKEN) {
+    console.log('Slack token verified');
+    return true;
+  } else{
+    console.log('Slack token does not match stored token, if present.');
+    return false
+  };
+};
+
 app.post('/', function(req, res) {
   var hasArgs = req.param('text').length > 0;
   var args = req.param('text').toLowerCase().split(' '),
-      command = req.param('command'),
+      command = req.param('command')
       username = req.param('user_name'),
+      token = req.param('token')
       acceptable = ["yes", "ok", "no"];
 
     console.log('args');
     console.log(args);
 
-    if (hasArgs) {
-      if (_.contains(acceptable, args[0])) {
-        var comment = args.slice(1).join(' ');
-        user = _.find(users, {'username': username});
-        if (user) {
-          user.status = args[0];
-          user.comment = comment;
+    if (!validToken(token)) {
+      res.send('Invalid Slack token. Ensure that the correct Slack integration token is set as the SLACK_TOKEN env var.')
+    } else {
+      if (hasArgs) {
+        if (_.contains(acceptable, args[0])) {
+          var comment = args.slice(1).join(' ');
+          user = _.find(users, {'username': username});
+          if (user) {
+            user.status = args[0];
+            user.comment = comment;
+          }
+          else {
+            users.push({'username': username, 'status': args[0], 'comment': comment});
+          }
+          console.log(users);
+          // People want confirmation that we got their status, so show it and everyone else's:
+          var status = 'Your pairing status was set to: ' + args[0] + '\n';
+          status += getCurrentPairStatus(users);
+          res.send(status);
+        } else {
+          res.send('Close but no cigar. What is this command, "' + args[0] + '", that you speak of?\n' + help);
         }
-        else {
-          users.push({'username': username, 'status': args[0], 'comment': comment});
-        }
-        console.log(users);
-        // People want confirmation that we got their status, so show it and everyone else's:
-        var status = 'Your pairing status was set to: ' + args[0] + '\n';
-        status += getCurrentPairStatus(users);
-        res.send(status);
-      } else {
-        res.send('Close but no cigar. What is this command, "' + args[0] + '", that you speak of?\n' + help);
       }
-    }
-    else {
-      var status = getCurrentPairStatus(users);
-      console.log(status)
-      res.send(status);
+      else {
+        var status = getCurrentPairStatus(users);
+        console.log(status)
+        res.send(status);
+      }
     }
 });
 
@@ -99,5 +114,6 @@ var port = Number(process.env.PORT || 5000);
 app.listen(port, function() {
   console.log("Listening on " + port);
   console.log("PAIR URL: " + process.env.PAIRBOT_URL);
+  console.log("SLACK_TOKEN: " + process.env.SLACK_TOKEN);
   setInterval(keepalive, 60e3);
 });
