@@ -75,7 +75,15 @@ app.post('/', function(req, res) {
       res.send('Invalid Slack token. Ensure that the correct Slack integration token is set as the SLACK_TOKEN env var.');
     } else {
       if (hasArgs) {
-        if (_.contains(acceptable, args[0])) {
+        if (args[0] === 'help') {
+          // send help
+          res.send(
+            {
+              "response_type": "ephemeral",
+              "text": help + "\n" +
+                "Full documentation <https://github.com/techieshark/slack-pair|on Github>.",
+            });
+        } else if (_.contains(acceptable, args[0])) {
           var comment = args.slice(1).join(' ');
           user = _.find(users, {'username': username});
           if (user) {
