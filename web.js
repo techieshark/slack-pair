@@ -41,7 +41,7 @@ function getCurrentPairStatus(users) {
     status += '\n*Nope. Do Not Disturb:*\n';
     status += no;
   }
-  if (status == '') {
+  if (status === '') {
     status = 'No one up for pairing (yet!). Pair up, yo.\n' + help;
   } else {
     status += '\n' + help + '\n---------------------- Pair up, yo. (Go find \'em!) ----------------------\n';
@@ -55,23 +55,24 @@ function validToken(token) {
     return true;
   } else{
     console.log('Slack token does not match stored token, if present.');
-    return false
-  };
-};
+    return false;
+  }
+}
 
 app.post('/', function(req, res) {
   var hasArgs = req.param('text').length > 0;
   var args = req.param('text').toLowerCase().split(' '),
-      command = req.param('command')
+      command = req.param('command'),
       username = req.param('user_name'),
-      token = req.param('token')
+      token = req.param('token'),
       acceptable = ["yes", "ok", "no"];
+  var status;
 
     console.log('args');
     console.log(args);
 
     if (!validToken(token)) {
-      res.send('Invalid Slack token. Ensure that the correct Slack integration token is set as the SLACK_TOKEN env var.')
+      res.send('Invalid Slack token. Ensure that the correct Slack integration token is set as the SLACK_TOKEN env var.');
     } else {
       if (hasArgs) {
         if (_.contains(acceptable, args[0])) {
@@ -86,7 +87,7 @@ app.post('/', function(req, res) {
           }
           console.log(users);
           // People want confirmation that we got their status, so show it and everyone else's:
-          var status = 'Your pairing status was set to: ' + args[0] + '\n';
+          status = 'Your pairing status was set to: ' + args[0] + '\n';
           status += getCurrentPairStatus(users);
           res.send(status);
         } else {
@@ -94,8 +95,8 @@ app.post('/', function(req, res) {
         }
       }
       else {
-        var status = getCurrentPairStatus(users);
-        console.log(status)
+        status = getCurrentPairStatus(users);
+        console.log(status);
         res.send(status);
       }
     }
@@ -104,10 +105,10 @@ app.post('/', function(req, res) {
 app.get('/keepalive', function (req, res) {
   console.log('pong');
   res.send(Date.now()+'');
-})
+});
 
 function keepalive() {
-  request(process.env.PAIRBOT_URL + '/keepalive')
+  request(process.env.PAIRBOT_URL + '/keepalive');
 }
 
 var port = Number(process.env.PORT || 5000);
