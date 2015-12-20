@@ -7,7 +7,7 @@ var request = require('pr-request');
 
 
 var app = express();
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(logfmt.requestLogger());
 
