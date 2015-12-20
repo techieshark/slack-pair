@@ -40,6 +40,12 @@ or
 >
 > Bummer! You're too busy for pairing.
 
+## Setup & Run
+
+1. get a copy of the source: `git clone https://github.com/techieshark/slack-pair.git && cd slack-pair`
+2. you can start it by just running `npm start`, but first:
+3. follow the [instructions for configuring the Slack integration](https://github.com/techieshark/slack-pair/issues/14). 
+
 ## contributing
 
 [Pull requests](https://help.github.com/articles/using-pull-requests/) are welcome and encouraged! You'll need
