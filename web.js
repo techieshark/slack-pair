@@ -60,11 +60,11 @@ function validToken(token) {
 }
 
 app.post('/', function(req, res) {
-  var hasArgs = req.param('text').length > 0;
-  var args = req.param('text').toLowerCase().split(' '),
-      command = req.param('command'),
-      username = req.param('user_name'),
-      token = req.param('token'),
+  var hasArgs = req.body.text.length > 0;
+  var args = req.body.text.toLowerCase().split(' '),
+      command = req.body.command,
+      username = req.body.user_name,
+      token = req.body.token,
       acceptable = ["yes", "ok", "no"];
   var status;
 
