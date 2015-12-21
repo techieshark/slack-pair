@@ -125,7 +125,7 @@ app.post('/', function(req, res) {
 
           // notify pairing channel if environment vars are provided and status is yes/ok
           if (process.env.SLACK_WEBHOOK_URL && process.env.SLACK_PAIR_CHANNEL &&
-              status === 'yes' || status === 'ok') {
+              (status === 'yes' || status === 'ok')) {
             notifyChannel(user.username + " says '" + user.status + "' to pairing" + (user.comment ? " (" + user.comment + ")" : "" ) + "! Go pair!");
           }
         } else {
