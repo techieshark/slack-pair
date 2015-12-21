@@ -54,7 +54,7 @@ or
 3. follow the [instructions for configuring the Slack integration](https://github.com/techieshark/slack-pair/issues/14).
 4. If you want notifications sent to a channel (e.g. "Samantha says yes to pairing (kernel debugging)"), configure an incoming webhook (name=pair, description="pair with buddies", channel = whatever channel you want things sent to), then copy the channel & webhook url to your config file and uncomment the lines for SLACK_PAIR_CHANNEL and SLACK_WEBHOOK_URL. Make sure to `$ source your-slack-domain.env` after you've copied and edited the env.sample.
 
-### contributing
+### Contributing
 
 [Pull requests](https://help.github.com/articles/using-pull-requests/) are welcome and encouraged! You'll need
 
