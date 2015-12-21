@@ -74,8 +74,8 @@ Of course, if you run into any problems you can always open an [issue](https://g
 
 ### Credits
 
-This is a collaborative project. We welcome your contributitions (see above). Ping @techieshark on twitter if you want to get involved.
+This is a collaborative project. We welcome your contributitions (see above). Ping [@techieshark](https://twitter.com/techieshark) on twitter if you want to get involved.
 
-Code originally by @jeremiak & @techieshark. Other collaborators listed here: https://github.com/techieshark/slack-pair/graphs/contributors.
+Code originally by [@jeremiak](https://github.com/jeremiak) & [@techieshark](https://github.com/techieshark). Other collaborators listed here: https://github.com/techieshark/slack-pair/graphs/contributors.
 
-Special thanks to Ainsley (@ainsleywagon) for designing such a cool pair icon (https://thenounproject.com/term/pair/19161/).
+Special thanks to Ainsley ([@ainsleywagon](https://github.com/ainsleywagon)) for designing such a cool pair icon (https://thenounproject.com/term/pair/19161/).
