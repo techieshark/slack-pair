@@ -3,7 +3,7 @@ var _ = require('lodash');
 var express = require("express");
 var bodyParser = require('body-parser');
 var logfmt = require("logfmt");
-var request = require('pr-request');
+var request = require('request');
 
 
 var app = express();
@@ -66,7 +66,7 @@ app.post('/', function(req, res) {
       username = req.body.user_name,
       token = req.body.token,
       acceptable = ["yes", "ok", "no"];
-  var status, notification;
+  var user, status, notification;
 
     console.log('args');
     console.log(args);
@@ -92,13 +92,40 @@ app.post('/', function(req, res) {
             user.comment = comment;
           }
           else {
-            users.push({'username': username, 'status': status, 'comment': comment});
+            user = {'username': username, 'status': status, 'comment': comment};
+            users.push(user);
           }
           console.log(users);
           // People want confirmation that we got their status, so show it and everyone else's:
           notification = 'Your pairing status was set to: ' + status + '\n';
           notification += getCurrentPairStatus(users);
           res.send(notification);
+
+          // notify pairing channel if environment vars are provided and status is yes/ok
+          if (process.env.SLACK_WEBHOOK_URL &&
+              process.env.SLACK_PAIR_CHANNEL &&
+              status === 'yes' || status === 'ok') {
+            payload = {
+              "channel": process.env.SLACK_PAIR_CHANNEL,
+              "username": "pair",
+              "text": user.username + " says '" + user.status + "' to pairing" + (user.comment ? " (" + user.comment + ")" : "" ) + "! Go pair!",
+              "icon_url": "http://s8.postimg.org/kmlmmglid/noun_19161_cc.png" // thx @ainsleywagon, https://thenounproject.com/term/pair/19161/
+            };
+
+            request.post({
+                uri: process.env.SLACK_WEBHOOK_URL,
+                body: JSON.stringify(payload),
+              },
+              function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                  console.log(body);
+                } else if (error) {
+                  console.error("Error posting to channel: " + error);
+                }
+              }
+            );
+          }
+
         } else {
           res.send('Close but no cigar. What is this command, "' + args[0] + '", that you speak of?\n' + help);
         }
@@ -125,5 +152,7 @@ app.listen(port, function() {
   console.log("Listening on " + port);
   console.log("PAIR URL: " + process.env.PAIRBOT_URL);
   console.log("SLACK_TOKEN: " + process.env.SLACK_TOKEN);
+  console.log("SLACK_WEBHOOK_URL: " + process.env.SLACK_WEBHOOK_URL);
+  console.log("SLACK_PAIR_CHANNEL: " + process.env.SLACK_PAIR_CHANNEL);
   setInterval(keepalive, 60e3);
 });
