@@ -69,8 +69,6 @@ You'll be wanting a slack command integration and supply a publicly accessible U
 
 Of course, if you run into any problems you can always open an [issue](https://github.com/techieshark/slack-pair/issues).
 
-**happy pairing :)**
-
 
 ### Credits
 
@@ -79,3 +77,7 @@ This is a collaborative project. We welcome your contributitions (see above). Pi
 Code originally by [@jeremiak](https://github.com/jeremiak) & [@techieshark](https://github.com/techieshark). Other collaborators listed here: https://github.com/techieshark/slack-pair/graphs/contributors.
 
 Special thanks to Ainsley ([@ainsleywagon](https://github.com/ainsleywagon)) for designing such a cool pair icon (https://thenounproject.com/term/pair/19161/).
+
+---
+
+**happy pairing :)**
