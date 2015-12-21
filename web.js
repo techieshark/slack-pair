@@ -59,6 +59,28 @@ function validToken(token) {
   }
 }
 
+function notifyChannel(text) {
+  payload = {
+    "channel": process.env.SLACK_PAIR_CHANNEL,
+    "username": "pair",
+    "text": text,
+    "icon_url": "http://s8.postimg.org/kmlmmglid/noun_19161_cc.png" // thx @ainsleywagon, https://thenounproject.com/term/pair/19161/
+  };
+
+  request.post({
+      uri: process.env.SLACK_WEBHOOK_URL,
+      body: JSON.stringify(payload),
+    },
+    function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log(body);
+      } else if (error) {
+        console.error("Error posting to channel: " + error);
+      }
+    }
+  );
+}
+
 app.post('/', function(req, res) {
   var hasArgs = req.body.text.length > 0;
   var args = req.body.text.toLowerCase().split(' '),
@@ -102,30 +124,10 @@ app.post('/', function(req, res) {
           res.send(notification);
 
           // notify pairing channel if environment vars are provided and status is yes/ok
-          if (process.env.SLACK_WEBHOOK_URL &&
-              process.env.SLACK_PAIR_CHANNEL &&
+          if (process.env.SLACK_WEBHOOK_URL && process.env.SLACK_PAIR_CHANNEL &&
               status === 'yes' || status === 'ok') {
-            payload = {
-              "channel": process.env.SLACK_PAIR_CHANNEL,
-              "username": "pair",
-              "text": user.username + " says '" + user.status + "' to pairing" + (user.comment ? " (" + user.comment + ")" : "" ) + "! Go pair!",
-              "icon_url": "http://s8.postimg.org/kmlmmglid/noun_19161_cc.png" // thx @ainsleywagon, https://thenounproject.com/term/pair/19161/
-            };
-
-            request.post({
-                uri: process.env.SLACK_WEBHOOK_URL,
-                body: JSON.stringify(payload),
-              },
-              function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                  console.log(body);
-                } else if (error) {
-                  console.error("Error posting to channel: " + error);
-                }
-              }
-            );
+            notifyChannel(user.username + " says '" + user.status + "' to pairing" + (user.comment ? " (" + user.comment + ")" : "" ) + "! Go pair!");
           }
-
         } else {
           res.send('Close but no cigar. What is this command, "' + args[0] + '", that you speak of?\n' + help);
         }
