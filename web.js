@@ -66,7 +66,7 @@ app.post('/', function(req, res) {
       username = req.body.user_name,
       token = req.body.token,
       acceptable = ["yes", "ok", "no"];
-  var status;
+  var status, notification;
 
     console.log('args');
     console.log(args);
@@ -85,19 +85,20 @@ app.post('/', function(req, res) {
             });
         } else if (_.contains(acceptable, args[0])) {
           var comment = args.slice(1).join(' ');
+          status = args[0];
           user = _.find(users, {'username': username});
           if (user) {
-            user.status = args[0];
+            user.status = status;
             user.comment = comment;
           }
           else {
-            users.push({'username': username, 'status': args[0], 'comment': comment});
+            users.push({'username': username, 'status': status, 'comment': comment});
           }
           console.log(users);
           // People want confirmation that we got their status, so show it and everyone else's:
-          status = 'Your pairing status was set to: ' + args[0] + '\n';
-          status += getCurrentPairStatus(users);
-          res.send(status);
+          notification = 'Your pairing status was set to: ' + status + '\n';
+          notification += getCurrentPairStatus(users);
+          res.send(notification);
         } else {
           res.send('Close but no cigar. What is this command, "' + args[0] + '", that you speak of?\n' + help);
         }
