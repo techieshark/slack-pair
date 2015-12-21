@@ -70,3 +70,12 @@ You'll be wanting a slack command integration and supply a publicly accessible U
 Of course, if you run into any problems you can always open an [issue](https://github.com/techieshark/slack-pair/issues).
 
 **happy pairing :)**
+
+
+### Credits
+
+This is a collaborative project. We welcome your contributitions (see above). Ping @techieshark on twitter if you want to get involved.
+
+Code originally by @jeremiak & @techieshark. Other collaborators listed here: https://github.com/techieshark/slack-pair/graphs/contributors.
+
+Special thanks to Ainsley (@ainsleywagon) for designing such a cool pair icon (https://thenounproject.com/term/pair/19161/).
