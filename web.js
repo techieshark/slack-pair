@@ -81,6 +81,22 @@ function notifyChannel(text) {
   );
 }
 
+function updateUsers (username, status, comment) {
+  var user = _.find(users, {'username': username});
+  if (user) {
+    user.status = status;
+    user.comment = comment;
+  }
+  else {
+    user = {'username': username, 'status': status, 'comment': comment};
+    users.push(user);
+  }
+  console.log(users);
+  return user;
+}
+
+
+
 app.post('/', function(req, res) {
   var hasArgs = req.body.text.length > 0;
   var args = req.body.text.toLowerCase().split(' '),
@@ -108,16 +124,9 @@ app.post('/', function(req, res) {
         } else if (_.contains(acceptable, args[0])) {
           var comment = args.slice(1).join(' ');
           status = args[0];
-          user = _.find(users, {'username': username});
-          if (user) {
-            user.status = status;
-            user.comment = comment;
-          }
-          else {
-            user = {'username': username, 'status': status, 'comment': comment};
-            users.push(user);
-          }
-          console.log(users);
+
+          user = updateUsers(username, status, comment);
+
           // People want confirmation that we got their status, so show it and everyone else's:
           notification = 'Your pairing status was set to: ' + status + '\n';
           notification += getCurrentPairStatus(users);
