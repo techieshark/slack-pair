@@ -6,6 +6,7 @@ var logfmt = require("logfmt");
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 var MongoPairList = require('./lib/mongo_pair_list.js');
+var debug = require('debug')('pair');
 
 var db;
 var app = express();
@@ -17,10 +18,10 @@ var help = 'Usage:\t `/pair [yes|ok|no <your project here>]` or `/pair` alone to
 
 function validToken(token) {
   if (token == process.env.SLACK_TOKEN) {
-    console.log('Slack token verified');
+    debug('Slack token verified');
     return true;
   } else{
-    console.log('Slack token does not match stored token, if present.');
+    debug('Slack token does not match stored token, if present.');
     return false;
   }
 }
@@ -39,7 +40,7 @@ function notifyChannel(text) {
     },
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        console.log(body);
+        debug(body);
       } else if (error) {
         console.error("Error posting to channel: " + error);
       }
@@ -58,8 +59,8 @@ app.post('/', function(req, res) {
   var user, status, notification;
   var pairList;
 
-    console.log('args');
-    console.log(args);
+    debug('args');
+    debug(args);
 
     if (!validToken(token)) {
       res.send('Invalid Slack token. Ensure that the correct Slack integration token is set as the SLACK_TOKEN env var.');
@@ -105,7 +106,7 @@ app.post('/', function(req, res) {
         pairList.fetch(function (err, pairList) {
           if(err) throw err;
           status = pairList.toString();
-          console.log(status);
+          debug(status);
           res.send(status);
         });
       }
@@ -113,7 +114,7 @@ app.post('/', function(req, res) {
 });
 
 app.get('/keepalive', function (req, res) {
-  console.log('pong');
+  debug('pong');
   res.send(Date.now()+'');
 });
 
