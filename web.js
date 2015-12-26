@@ -4,8 +4,7 @@ var express = require("express");
 var bodyParser = require('body-parser');
 var logfmt = require("logfmt");
 var request = require('request');
-var MongoClient = require('mongodb').MongoClient;
-var MongoPairList = require('./lib/mongo_pair_list.js');
+var PairDb = require('./lib/pair_db.js');
 var debug = require('debug')('pair');
 
 var db;
@@ -79,7 +78,7 @@ app.post('/', function(req, res) {
           status = args[0];
 
           // get pairList from DB
-          pairList = new MongoPairList(db, process.env.SLACK_TOKEN);
+          pairList = db.getPairList();
           pairList.fetch(function (err, pairList) {
             pairList.update(username, status, comment, function (err, data) {
               user = data.user; // users = data.users
@@ -102,7 +101,8 @@ app.post('/', function(req, res) {
       }
       else {
         // get pairList from DB
-        pairList = new MongoPairList(db, process.env.SLACK_TOKEN);
+        pairList = db.getPairList();
+        // pairList = new MongoPairList(db, process.env.SLACK_TOKEN);
         pairList.fetch(function (err, pairList) {
           if(err) throw err;
           status = pairList.toString();
@@ -122,17 +122,13 @@ function keepalive() {
   request(process.env.PAIRBOT_URL + '/keepalive');
 }
 
-// Initialize connection once
-var dbURL = process.env.MONGO_URL;
-if (!dbURL || dbURL === '') {
-  console.error("Error: Missing MONGO_URL environment variable.");
-  process.exit(1);
-}
+db = PairDb.build();
+db.connect(function (err) {
 
-MongoClient.connect(dbURL, function(err, database) {
-  if(err) throw err;
+  if (err) throw err;
 
-  db = database;
+  // db = database; //PairDB
+  // pairs = pairList; //PairList
 
   // Start the application after the database connection is ready
   var port = Number(process.env.PORT || 5000);
@@ -143,6 +139,9 @@ MongoClient.connect(dbURL, function(err, database) {
     console.log("SLACK_WEBHOOK_URL: " + process.env.SLACK_WEBHOOK_URL);
     console.log("SLACK_PAIR_CHANNEL: " + process.env.SLACK_PAIR_CHANNEL);
     console.log("MONGO_URL: " + process.env.MONGO_URL);
+    console.log("DB_PROVIDER: " + process.env.DB_PROVIDER);
     setInterval(keepalive, 60e3);
   });
+
 });
+
