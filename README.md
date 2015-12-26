@@ -55,6 +55,18 @@ or
 4. If you want notifications sent to a channel (e.g. "Samantha says yes to pairing (kernel debugging)"), configure an incoming webhook (name=pair, description="pair with buddies", channel = whatever channel you want things sent to), then copy the channel & webhook url to your config file and uncomment the lines for SLACK_PAIR_CHANNEL and SLACK_WEBHOOK_URL. Make sure to `$ source your-slack-domain.env` after you've copied and edited the env.sample.
 5. By default, `pair` will run using an in-memory data store, which works for testing purposes but as soon as the app restarts (which could be more than once a day on Heroku), the list of users wanting to pair will be wiped. To prevent that, set up a MongoDB database, update `MONGO_URL` in your environment (see `env.sample`) and switch `DB_PROVIDER` from `memory` to `mongo` (again, see `env.sample`).
 
+### Deploying to Heroku
+
+1. Follow the setup instructions above. You should have `pair` up and running on your development machine, and connected to Slack through an `ngrok`-provided URL.
+2. Create a heroku app: `heroku create your-app`.
+3. Copy `heroku-sample.env` to `your-app.heroku.env`. Put your environment settings in that file.
+4. If you want to user MongoDB, create that addon: `heroku addons:create mongolab:sandbox`. You'll need to create a new user / password and update the MONGO_URL in your environment settings. If you don't do this, you'l just run in memory and the pair list will reset fairly often (ok for testing, a bummer for production).
+5. Push your confit to heroku: `heroku config:push -e your-app.heroku.env`.
+6. Deploy to Heroku: `git push heroku master`
+7. Update Slack's URL setting in the Custom Integration you set up in `Setup & Run` above. Your URL should look like https://your-app.herokuapp.com.
+8. Enjoy!
+
+
 ### Contributing
 
 [Pull requests](https://help.github.com/articles/using-pull-requests/) are welcome and encouraged! You'll need
