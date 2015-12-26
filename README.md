@@ -53,6 +53,7 @@ or
 2. you can start it by just running `npm start`, but first:
 3. follow the [instructions for configuring the Slack integration](https://github.com/techieshark/slack-pair/issues/14).
 4. If you want notifications sent to a channel (e.g. "Samantha says yes to pairing (kernel debugging)"), configure an incoming webhook (name=pair, description="pair with buddies", channel = whatever channel you want things sent to), then copy the channel & webhook url to your config file and uncomment the lines for SLACK_PAIR_CHANNEL and SLACK_WEBHOOK_URL. Make sure to `$ source your-slack-domain.env` after you've copied and edited the env.sample.
+5. By default, `pair` will run using an in-memory data store, which works for testing purposes but as soon as the app restarts (which could be more than once a day on Heroku), the list of users wanting to pair will be wiped. To prevent that, set up a MongoDB database, update `MONGO_URL` in your environment (see `env.sample`) and switch `DB_PROVIDER` from `memory` to `mongo` (again, see `env.sample`).
 
 ### Contributing
 
