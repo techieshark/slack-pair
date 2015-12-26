@@ -102,7 +102,6 @@ app.post('/', function(req, res) {
       else {
         // get pairList from DB
         pairList = db.getPairList();
-        // pairList = new MongoPairList(db, process.env.SLACK_TOKEN);
         pairList.fetch(function (err, pairList) {
           if(err) throw err;
           status = pairList.toString();
@@ -126,9 +125,6 @@ db = PairDb.build();
 db.connect(function (err) {
 
   if (err) throw err;
-
-  // db = database; //PairDB
-  // pairs = pairList; //PairList
 
   // Start the application after the database connection is ready
   var port = Number(process.env.PORT || 5000);
